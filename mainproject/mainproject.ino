@@ -13,5 +13,6 @@ void loop() {
   Controldrivetrain();
   ControlSlide();
   ControlServo();
+  runn();
   delay(50);
 }

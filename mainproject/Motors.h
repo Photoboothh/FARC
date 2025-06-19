@@ -18,9 +18,9 @@ void slidePower(int p12, int p13, int p14, int p15) {
 }
 
 void servoAngle(int deg) {
-  int pwm_value1 = map(deg, 0, 180, 205, 410); 
+  int pwm_value1 = map(deg , 0, 180, 102, 512); 
   pwm.setPWM(7, 0, pwm_value1);
-  int pwm_value2 = map(180 - deg, 0, 180, 205, 410); 
+  int pwm_value2 = map(180 - deg , 0, 180, 102, 512); 
   pwm.setPWM(6, 0, pwm_value2);
 }
 

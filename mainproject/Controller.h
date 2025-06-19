@@ -5,6 +5,9 @@
 #define PS2_SEL 15 // SS 
 #define PS2_CLK 14 // SLK
 
+int timer;
+bool hold = 0;
+
 PS2X ps2x;
 
 void setupController() {
@@ -45,16 +48,21 @@ void Controldrivetrain() {
   }
   drivetrain(p8,p9,p10,p11);
 }
-
 void ControlSlide() {
   int p12=0, p13=0, p14=0, p15=0;
-  if (ps2x.Button(PSB_R1)) {
-    p12 = 2000;
-    p15 = 2000;
+  if (ps2x.ButtonPressed(PSB_R1)) {
+    if ( hold == 0 ) {
+      hold = 1;
+    }
+    else {
+      hold = 0;
+    }
   }
-  else if (ps2x.Button(PSB_PAD_UP)) {
-    p12 = 3000;
-    p15 = 3000;
+  if ( hold == 1 ) {
+    p12=100, p15=100;
+  }
+  if (ps2x.Button(PSB_PAD_UP)) {
+    timer = 15;
   }
   else if (ps2x.Button(PSB_PAD_DOWN)) {
     p13 = 1000;
@@ -64,10 +72,19 @@ void ControlSlide() {
 }
 
 void ControlServo() {
-  if (ps2x.Button(PSB_TRIANGLE)) {
+  if (ps2x.Button(PSB_CROSS)) {
     servoAngle(0);
   }
-  if (ps2x.Button(PSB_CROSS)) {
+  if (ps2x.Button(PSB_TRIANGLE)) {
     servoAngle(20);
+  }
+  if (ps2x.Button(PSB_SQUARE)) {
+    servoAngle(180);
+  }
+}
+void runn() {
+  if ( timer != 0 ) {
+    slidePower(3000, 0, 0, 3000);
+    timer -= 1;
   }
 }
