@@ -6,7 +6,7 @@
 #define PS2_CLK 14 // SLK
 
 #define HIGH_SPEED 2048
-#define NOR_SPEED 1100
+#define NOR_SPEED 1000
 
 int timer;
 bool hold = 0;
@@ -102,9 +102,7 @@ void runn() {
     slidePower(3000, 0, 0, 3000);
     timer -= 1;
   }
-  int calib_servo = 0;
-  if (timer < 10 && calib_servo < 170) {
-    servoAngle(170 - calib_servo);
-    calib_servo += 10;
+  if (timer <=0) {
+    servoAngle(20);
   }
 }
