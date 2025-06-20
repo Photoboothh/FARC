@@ -87,11 +87,16 @@ void ControlSlide() {
 }
 
 void ControlServo() {
+  int servoangle;
   if (ps2x.Button(PSB_CROSS)) {
-    servoAngle(0);
-  }
-  if (ps2x.Button(PSB_TRIANGLE)) {
-    servoAngle(20);
+    if (servoangle == 20) {
+      servoangle = 0;
+      servoAngle(servoangle);
+    }
+    if (servoangle == 0) {
+      servoangle = 20;
+      servoAngle(servoangle);
+    }
   }
   if (ps2x.Button(PSB_START)) {
     servoAngle(170);
@@ -101,8 +106,5 @@ void runn() {
   if ( timer != 0 ) {
     slidePower(3000, 0, 0, 3000);
     timer -= 1;
-  }
-  if (timer <=0) {
-    servoAngle(20);
   }
 }
