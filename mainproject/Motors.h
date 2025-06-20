@@ -33,5 +33,5 @@ void setupMotors() {
 
   drivetrain(0, 0, 0, 0);
   slidePower (0, 0, 0, 0);
-  servoAngle(0);
+  servoAngle(170);
 }

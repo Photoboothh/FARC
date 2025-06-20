@@ -5,6 +5,9 @@
 #define PS2_SEL 15 // SS 
 #define PS2_CLK 14 // SLK
 
+#define HIGH_SPEED 2048
+#define NOR_SPEED 1100
+
 int timer;
 bool hold = 0;
 
@@ -19,6 +22,15 @@ void setupController() {
 }
 
 void Controldrivetrain() {
+  int speed = NOR_SPEED;
+  if (ps2x.Button(PSB_SELECT)) {
+    if (speed == NOR_SPEED) {
+      speed = HIGH_SPEED;
+    }
+    if (speed == HIGH_SPEED) {
+      speed = NOR_SPEED;
+    }
+  }
   int joystick_rx = 127 - ps2x.Analog(PSS_RX);
   int joystick_ly = 128 - ps2x.Analog(PSS_LY);
   int leftmotor = -(joystick_ly + joystick_rx);
@@ -32,19 +44,19 @@ void Controldrivetrain() {
 
   if (leftmotor > 0) {
     p8 = leftmotor;
-    p8 = map(p8, 0, 128, 0, 2048);
+    p8 = map(p8, 0, 128, 0, speed);
   }
   if (leftmotor < 0) {
     p9 = abs(leftmotor);
-    p9 = map(p9, 0, 128, 0, 2048);
+    p9 = map(p9, 0, 128, 0, speed);
   }
   if (rightmotor > 0) {
     p10 = rightmotor;
-    p10 = map(p10, 0, 128, 0, 2048);
+    p10 = map(p10, 0, 128, 0, speed);
   }
   if (rightmotor < 0) {
     p11 = abs(rightmotor);
-    p11 = map(p11, 0, 128, 0, 2048);
+    p11 = map(p11, 0, 128, 0, speed);
   }
   drivetrain(p8,p9,p10,p11);
 }
@@ -59,14 +71,17 @@ void ControlSlide() {
     }
   }
   if ( hold == 1 ) {
-    p12=100, p15=100;
+    p12=200, p15=200;
   }
   if (ps2x.Button(PSB_PAD_UP)) {
-    timer = 15;
+    timer = 14;
   }
   else if (ps2x.Button(PSB_PAD_DOWN)) {
-    p13 = 1000;
-    p14 = 1000;
+    p13 = 500;
+    p14 = 500;
+  }
+  else if (ps2x.Button(PSB_L1)) {
+    p12 = p15 = 2000;
   }
   slidePower(p12, p13, p14 ,p15); 
 }
@@ -78,8 +93,8 @@ void ControlServo() {
   if (ps2x.Button(PSB_TRIANGLE)) {
     servoAngle(20);
   }
-  if (ps2x.Button(PSB_SQUARE)) {
-    servoAngle(180);
+  if (ps2x.Button(PSB_START)) {
+    servoAngle(170);
   }
 }
 void runn() {
