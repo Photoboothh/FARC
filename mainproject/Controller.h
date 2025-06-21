@@ -105,12 +105,14 @@ void ControlServo() {
   }
   if (ps2x.ButtonPressed(PSB_R2)) {
     if (open == 0) {
+      open = 1;
       door_pwm = 1000;
       door(door_pwm);
       delay(100);
       door(1500);
     }
-    if (open == 1) {
+    else (open == 1) {
+      open = 0
       door_pwm = 2000;
       door(door_pwm);
       delay(100);
