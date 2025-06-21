@@ -88,7 +88,7 @@ void ControlSlide() {
 }
 int servoangle = 170;
 int door_pwm = 1500;
-bool open = 0;
+int door_open = 0;
 void ControlServo() {
   if (ps2x.ButtonPressed(PSB_CROSS)) {
     if (servoangle == 30) {
@@ -105,14 +105,14 @@ void ControlServo() {
   }
   if (ps2x.ButtonPressed(PSB_R2)) {
     if (open == 0) {
-      open = 1;
+      door_open = 1;
       door_pwm = 1000;
       door(door_pwm);
       delay(100);
       door(1500);
     }
-    else (open == 1) {
-      open = 0
+    else {
+      door_open = 0;
       door_pwm = 2000;
       door(door_pwm);
       delay(100);
