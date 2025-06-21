@@ -6,7 +6,7 @@
 #define PS2_CLK 14 // SLK
 
 #define HIGH_SPEED 2048
-#define NOR_SPEED 1000
+#define NOR_SPEED 1500
 
 int timer;
 bool hold = 0;
@@ -21,9 +21,9 @@ void setupController() {
   }
 }
 
+int speed = NOR_SPEED;
 void Controldrivetrain() {
-  int speed = NOR_SPEED;
-  if (ps2x.Button(PSB_SELECT)) {
+  if (ps2x.ButtonPressed(PSB_SELECT)) {
     if (speed == NOR_SPEED) {
       speed = HIGH_SPEED;
     }
@@ -60,6 +60,7 @@ void Controldrivetrain() {
   }
   drivetrain(p8,p9,p10,p11);
 }
+
 void ControlSlide() {
   int p12=0, p13=0, p14=0, p15=0;
   if (ps2x.ButtonPressed(PSB_R1)) {
@@ -85,21 +86,36 @@ void ControlSlide() {
   }
   slidePower(p12, p13, p14 ,p15); 
 }
-
+int servoangle = 170;
+int door_pwm = 1500;
+bool open = 0;
 void ControlServo() {
-  int servoangle;
-  if (ps2x.Button(PSB_CROSS)) {
-    if (servoangle == 20) {
+  if (ps2x.ButtonPressed(PSB_CROSS)) {
+    if (servoangle == 30) {
       servoangle = 0;
       servoAngle(servoangle);
     }
-    if (servoangle == 0) {
-      servoangle = 20;
+    else {
+      servoangle = 30;
       servoAngle(servoangle);
     }
   }
   if (ps2x.Button(PSB_START)) {
     servoAngle(170);
+  }
+  if (ps2x.ButtonPressed(PSB_R2)) {
+    if (open == 0) {
+      door_pwm = 1000;
+      door(door_pwm);
+      delay(100);
+      door(1500);
+    }
+    if (open == 1) {
+      door_pwm = 2000;
+      door(door_pwm);
+      delay(100);
+      door(1500);
+    }
   }
 }
 void runn() {

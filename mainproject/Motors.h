@@ -23,7 +23,9 @@ void servoAngle(int deg) {
   int pwm_value2 = map(180 - deg , 0, 180, 102, 512); 
   pwm.setPWM(6, 0, pwm_value2);
 }
-
+void door(int pwm) {
+  pwm.setPWM(5, 0, pwm);
+}
 void setupMotors() {
   Wire.begin(); 
   pwm.begin();
@@ -34,4 +36,5 @@ void setupMotors() {
   drivetrain(0, 0, 0, 0);
   slidePower (0, 0, 0, 0);
   servoAngle(170);
+  
 }
